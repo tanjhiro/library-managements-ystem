@@ -201,7 +201,78 @@ system("cls");
 addbooks();
 }
 }
+void deletebooks()    //function that delete items from file fp
+{
+system("cls");
+int d;
+char another='y';
+while(another=='y')  //infinite loop
+{
+system("cls");
+gotoxy(10,5);
+printf("Enter the Book ID to  delete:");
+scanf("%d",&d);
+fp=fopen("Bibek.dat","rb+");
+rewind(fp);
+while(fread(&a,sizeof(a),1,fp)==1)
+{
+if(a.id==d)
+{
 
+gotoxy(10,7);
+printf("The book record is available");
+gotoxy(10,8);
+printf("Book name is %s",a.name);
+gotoxy(10,9);
+printf("Rack No. is %d",a.rackno);
+findbook='t';
+}
+}
+if(findbook!='t')
+{
+gotoxy(10,10);
+printf("No record is found modify the search");
+if(getch())
+mainmenu();
+}
+if(findbook=='t' )
+{
+gotoxy(10,9);
+printf("Do you want to delete it?(Y/N):");
+if(getch()=='y')
+{
+ft=fopen("test.dat","wb+");  //temporary file for delete
+rewind(fp);
+while(fread(&a,sizeof(a),1,fp)==1)
+{
+if(a.id!=d)
+{
+fseek(ft,0,SEEK_CUR);
+fwrite(&a,sizeof(a),1,ft); //write all in tempory file except that
+}                              //we want to delete
+}
+fclose(ft);
+fclose(fp);
+remove("Bibek.dat");
+rename("test.dat","Bibek.dat"); //copy all item from temporary file to fp except that
+fp=fopen("Bibek.dat","rb+");    //we want to delete
+if(findbook=='t')
+{
+gotoxy(10,10);
+printf("The record is sucessfully deleted");
+gotoxy(10,11);
+printf("Delete another record?(Y/N)");
+}
+}
+else
+mainmenu();
+fflush(stdin);
+another=getch();
+}
+}
+gotoxy(10,15);
+mainmenu();
+}
 void searchbooks()
 {
 system("cls");

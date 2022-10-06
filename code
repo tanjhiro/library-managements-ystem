@@ -51,9 +51,9 @@ int mm,dd,yy;
 struct books
 {
 int id;
-char stname[50];
-char name[50];
-char Author[50];
+char stname[20];
+char name[20];
+char Author[20];
 int quantity;
 float Price;
 int count;
